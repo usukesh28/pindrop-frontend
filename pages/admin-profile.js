@@ -117,7 +117,7 @@ const AdminProfile = () => {
                         <div className="row">
                             <div className="col-md-3">
                                 <div className="card-box" style={{ paddingBottom: "50px" }}>
-                                    <h4 className="m-t-0 m-b-30 header-title">Profile Update</h4>
+                                    <h4 className="m-t-0 m-b-30 header-title">Profile Image</h4>
                                     <form role="form" onSubmit={onSubmit}>
                                         <div className="form-group">
                                             <img src={image} alt="" height="150px" width="200px"></img>
