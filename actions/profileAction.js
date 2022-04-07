@@ -29,7 +29,6 @@ export const updateAdminProfile = (query) => {
         '_id': id,
         ...query
     };
-    console.log(data);
     return fetch(`${API}/update-admin-profile`, {
         method: 'POST',
         headers: {
@@ -44,23 +43,3 @@ export const updateAdminProfile = (query) => {
         .catch(err => console.log(err));
 };
 
-export const updateAdminProfileImage = (query) => {
-    let id = localStorage.getItem('id');
-    let data = {
-        '_id': id,
-        ...query
-    };
-    console.log('dataa', data);
-    return fetch(`${API}/upload-admin-profile-image`, {
-        method: 'POST',
-        headers: {
-            Accept: 'application/json',
-            'Content-Type': 'multipart/form-data'
-        },
-        body: JSON.stringify(data)
-    })
-        .then(response => {
-            return response.json();
-        })
-        .catch(err => console.log(err));
-};

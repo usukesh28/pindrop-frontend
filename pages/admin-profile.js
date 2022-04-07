@@ -3,6 +3,7 @@ import Link from 'next/link';
 import Sidebar from './sidebar';
 import React, { Fragment } from 'react';
 import Swal from 'sweetalert2/dist/sweetalert2.js'
+import { API } from '../config';
 
 import Head from 'next/head';
 import { useState, useEffect } from 'react';
@@ -14,12 +15,15 @@ import FilesUploadComponent from './files-upload.component';
 const AdminProfile = () => {
 
     const [loading, setLoading] = useState(false);
+    const [profileLoading, setProfileLoading] = useState(false);
+    const [profileImage, setProfileImage] = useState();
+
     const [values, setValues] = useState({
         name: '',
         email: '',
         username: '',
         password: '',
-        image: '',
+        image: ''
     });
 
     const { name, email, username, password, image } = values;
@@ -32,38 +36,28 @@ const AdminProfile = () => {
             if (data.error) {
                 console.log(data.error);
             } else {
-                console.log(data);
                 setValues({ ...values, name: data.name, email: data.email, username: data.username, password: data.password, image: data.image });
             }
         });
     };
 
     const onFileChange = (e) => {
-        console.log('onchange', e.target.files[0]);
-        var formData = new FormData();
-        formData.append('profileImg', e.target.files[0])
-        var options = { content: formData };
-
-        // updateAdminProfileImage(formData).then(data => {
-        //     if (data.error) {
-        //         console.log(data.error);
-        //     } else {
-        //         console.log(data);
-        //         // setValues({ ...values, name: data.name, email: data.email, username: data.username, password: data.password, image: data.image });
-        //     }
-        // });
-
-        // setValues({ image: e.target.files[0] })
+        setProfileImage(e.target.files[0]);
     }
-    const onProfilelImageSubmit = (e) => {
+    const onSubmit = (e) => {
         e.preventDefault()
+        let id = localStorage.getItem('id');
         const formData = new FormData()
-        formData.append('profileImg', image)
-        console.log(formData);
-        // axios.post("http://localhost:4000/api/user-profile", formData, {
-        // }).then(res => {
-        //     console.log(res)
-        // })
+        formData.append('profileImg', profileImage);
+        formData.append('_id', id);
+        axios.post(`${API}/upload-admin-profile-image`, formData, {
+        }).then(res => {
+            setProfileLoading(true);
+            loadAdminProfile();
+            setTimeout(() => {
+                setProfileLoading(false);
+            }, 2000)
+        })
     }
 
     const handleSubmit = e => {
@@ -79,8 +73,8 @@ const AdminProfile = () => {
                 loadAdminProfile();
                 setLoading(true);
                 setTimeout(() => {
-                    setLoading(false);
-                },2000)
+                    setProfileLoading(false);
+                }, 2000)
             }
         });
 
@@ -121,12 +115,22 @@ const AdminProfile = () => {
                             </div>
                         </div>
                         <div className="row">
-                            <div className="offset-3 col-md-6">
+                            <div className="col-md-3">
                                 <div className="card-box" style={{ paddingBottom: "50px" }}>
-                                    <h4 className="m-t-0 m-b-30 header-title"></h4>
-                                    <div className="form-group form-inline">
-                                        <label >Profile Update</label>
-                                    </div>
+                                    <h4 className="m-t-0 m-b-30 header-title">Profile Update</h4>
+                                    <form role="form" onSubmit={onSubmit}>
+                                        <div className="form-group">
+                                            <img src={image} alt="" height="150px" width="200px"></img>
+                                            <input type="file" onChange={onFileChange} class="margin-top-10" required />
+                                        </div>
+                                        <button type="submit" className="btn btn-primary" >Upload</button>
+                                        {profileLoading ? <div class="alert alert-success margin-top-10">Image uploaded successfully</div> : null}
+                                    </form>
+                                </div>
+                            </div>
+                            <div className="offset-1 col-md-6">
+                                <div className="card-box" style={{ paddingBottom: "50px" }}>
+                                    <h4 className="m-t-0 m-b-30 header-title">Profile Update</h4>
                                     <form role="form" onSubmit={handleSubmit} >
                                         <div className="form-group">
                                             <label>Name</label>
@@ -141,13 +145,6 @@ const AdminProfile = () => {
                                         <button type="submit" className="btn btn-primary" >Update</button>
                                         {loading ? <div class="alert alert-success margin-top-10">Updated successfully</div> : null}
                                     </form>
-                                    {/* <FilesUploadComponent></FilesUploadComponent> */}
-                                    {/* <form role="form" onSubmit={onProfilelImageSubmit}>
-                                        <div className="form-group">
-                                            <input type="file" onChange={onFileChange} required />
-                                        </div>
-                                        <button type="submit" className="btn btn-primary" >Submit</button>
-                                    </form> */}
                                 </div>
                             </div>
                         </div>

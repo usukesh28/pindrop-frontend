@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+
+import { API } from '../config';
+
 import { updateAdminProfileImage } from '../actions/profileAction';
 export default class FilesUploadComponent extends Component {
     constructor(props) {
@@ -15,21 +18,14 @@ export default class FilesUploadComponent extends Component {
     }
     onSubmit(e) {
         e.preventDefault()
-        console.log(this.state.profileImg);
+        let id = localStorage.getItem('id');
         const formData = new FormData()
         formData.append('profileImg', this.state.profileImg);
-
-        updateAdminProfileImage(formData).then(data => {
-            if (data.error) {
-                // setValues({ ...values, error: data.error, loading: false });
-            } else {
-                console.log(data);
-            }
-        });
-        // axios.post("http://localhost:5243/api/upload-admin-profile-image", formData, {
-        // }).then(res => {
-        //     console.log(res)
-        // })
+        formData.append('_id', id);
+        axios.post(`${API}/upload-admin-profile-image`, formData, {
+        }).then(res => {
+            console.log(res)
+        })
     }
 
     render() {
