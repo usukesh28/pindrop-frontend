@@ -1,9 +1,12 @@
 import React from 'react';
-
+import Link from 'next/link'
 import { useEffect, useState } from 'react';
 
 import Image from 'next/image';
 import $ from 'jquery';
+import { adminProfile } from '../actions/profileAction';
+import Router from 'next/router';
+
 const Topbar = () => {
   const [values, setValues] = useState({
     admin: [],
@@ -51,6 +54,27 @@ const Topbar = () => {
   const showError = () => (error ? <div className="alert alert-danger">{error}</div> : '');
   const showMessage = () => (message ? <div className="alert alert-info">{message}</div> : '');
 
+  const [adminName, setAdminName] = useState();
+
+  useEffect(() => {
+    loadAdminProfile()
+  }, []);
+
+  const loadAdminProfile = () => {
+    adminProfile().then(data => {
+      if (data.error) {
+        console.log(data.error);
+      } else {
+        setAdminName(data.name);
+      }
+    });
+  };
+
+  const logout = () => {
+    localStorage.removeItem('id');
+    Router.push(`/login`);
+  }
+
   const signupForm = () => {
     return (
 
@@ -59,65 +83,30 @@ const Topbar = () => {
           <ul className="list-unstyled topnav-menu float-right mb-0">
             <li className="dropdown notification-list">
               <a className="nav-link dropdown-toggle nav-user mr-0 waves-effect waves-light" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
-                <span class="ml-1">Samuel <i className="mdi mdi-chevron-down"></i> </span>
-              </a>
-              <div className="dropdown-menu dropdown-menu-right profile-dropdown ">
-                <div className="dropdown-header noti-title">
-                  <h6 className="text-overflow m-0">Welcome !</h6>
-                </div>
-              </div>
-
-              <a className="navbar-toggle nav-link">
-                <div className="lines">
-                  <span></span>
-                  <span></span>
-                  <span></span>
-                </div>
+                <span className="ml-1">{adminName}</span>
               </a>
             </li>
-
-            {/* <li className="dropdown">
-                      <a className="nav-link   waves-effect waves-light nav-user mr-0" data-toggle="dropdown" href="#" role="button"
-                         aria-haspopup="false" aria-expanded="false">
-                          <img src="assets/images//agritech.png" alt="user-image" className="rounded-circle"/>
-                           <span className="ml-1">{this.state.dname}<i className="mdi mdi-chevron-down"></i> </span>
-                      </a>
-                      <div className="dropdown-menu">
-                         
-                          <div className="dropdown-item noti-title">
-                              <h6 className="text-overflow m-0">Welcome </h6>
-                          </div>
-      
-                         
-                         <Link href="/editprofile" >
-                           <a className="dropdown-item notify-item">
-                              <i className="fi-head"></i>My Account
-                              </a>
-                              </Link>
-      
-      
-                        
-                              <Link href="/" >
-                              <a className="dropdown-item notify-item">
-                              <i className="fi-power" onClick={this.logout}></i> Logout
-                              </a>
-                              </Link>
-                         
-      
-                      </div>
-                  </li> */}
-
+            <li className="dropdown notification-list">
+              <a className="nav-link dropdown-toggle nav-user mr-0 waves-effect waves-light" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
+                <Link href='/admin-profile'><span className="ml-1">Profile <i class="fe-user"></i></span></Link>
+              </a>
+            </li>
+            <li className="dropdown notification-list">
+              <a className="nav-link dropdown-toggle nav-user mr-0 waves-effect waves-light" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
+                <span className="ml-1" onClick={logout}>Logout  <i class="fe-log-out"></i></span>
+              </a>
+            </li>
           </ul>
 
           <div className="logo-box" style={{ marginLeft: '-20px', marginTop: '15px' }} >
             <a href="index.html" className="logo text-center">
               <span className="logo-lg">
-                {/* <Image src="/icons/app_logo.jpeg" width="181" height="50" alt=""/>                            <!-- <span class="logo-lg-text-light">UBold</span> --> */}
+                {/* <Image src="/icons/app_logo.jpeg" width="181" height="50" alt=""/>                            <!-- <span className="logo-lg-text-light">UBold</span> --> */}
               </span>
               <span className="logo-sm">
-                {/* <!-- <span class="logo-sm-text-dark">U</span> --> */}
+                {/* <!-- <span className="logo-sm-text-dark">U</span> --> */}
                 {/* <img src="assets/images/logo-sm.png" alt="" height="28"> */}
-                <Image src="/icons/app_logo.jpeg" width="28" height="28" alt="" />                            {/* <!-- <span class="logo-lg-text-light">UBold</span> --> */}
+                <Image src="/icons/app_logo.jpeg" width="28" height="28" alt="" />                            {/* <!-- <span className="logo-lg-text-light">UBold</span> --> */}
 
               </span>
             </a>

@@ -9,20 +9,14 @@ import { FaRegFileAlt, FaSearchLocation } from "react-icons/fa";
 import { RiEBike2Fill } from "react-icons/ri";
 
 import { HiOutlineReceiptTax } from "react-icons/hi";
+
+import { ProSidebar, Menu, MenuItem, SubMenu, SidebarHeader, SidebarContent, SidebarFooter } from 'react-pro-sidebar';
+
+// import './header.css';
+import "react-pro-sidebar/dist/css/styles.css";
+
 class Sidebar extends Component {
   componentDidMount() {
-    //   $('.slimscroll-menu').slimscroll({
-    //     height: 'auto',
-    //     position: 'right',
-    //     size: "6px",
-    //     color: '#9ea5ab',
-    //     wheelStep: 5,
-    //     touchScrollStep: 20
-    // });
-
-    // sidebar - main menu
-    //   $("#side-menu").metisMenu();
-
 
     // activate the menu in left side bar based on url
     $("#side-menu a").each(function () {
@@ -62,59 +56,33 @@ class Sidebar extends Component {
 
 
       // //className="fe-airplay">
-      <div className="left-side-menu" >
+      <div className="left-side-menu" id="header">
+        <ProSidebar>
 
-        {/* <Scrollbars style={{ width: '100%', height: '100%' }}> */}
-        <div className="slimscroll-menu">
+          <Menu iconShape="square">
+            <MenuItem ><i className="fe-grid"></i><Link href='/dashboard'><a><span className='margin-left-20'>Dashboard</span></a></Link> </MenuItem>
+            <MenuItem ><i><BiUser /></i><Link href='/users'><a><span className='margin-left-20'>Users</span></a></Link> </MenuItem>
+            <MenuItem ><i><RiEBike2Fill /></i><Link href='/rider/rider'><a><span className='margin-left-20'>Riders</span></a></Link> </MenuItem>
+            <MenuItem ><i><FaRegFileAlt /></i><Link href='/reports'><a><span className='margin-left-20'>Reports</span></a></Link></MenuItem>
+            <MenuItem ><i><FaSearchLocation /></i><Link href='/tracking'><a><span className='margin-left-20'>Track</span></a></Link> </MenuItem>
 
-          <div id="sidebar-menu">
+            <SubMenu title="Location">
+              <MenuItem><Link href="/locations/addCountry">Add Country</Link> </MenuItem>
+              <MenuItem><Link href="/locations/addState">Add State</Link> </MenuItem>
+              <MenuItem><Link href="/locations/addCity">Add City/Town</Link></MenuItem>
+              <MenuItem><Link href="/locations/addPincodes">Add Pincodes</Link> </MenuItem>
+            </SubMenu>
 
-            <ul className="metismenu" id="side-menu">
-              <li><Link href='/dashboard'><a><i className="fe-grid"></i><span>Dashboard</span></a></Link> </li>
-              <li><Link href='/users'><a><i><BiUser /></i><span>Users</span></a></Link> </li>
+            <SubMenu title="Slabs">
+              <MenuItem><Link href="/slabs/distanceSlab">Distance</Link>  </MenuItem>
+              <MenuItem><Link href="/slabs/newWeight/weightSlab">Weight</Link> </MenuItem>
+              <MenuItem><Link href="/slabs/dimension/dimensionSlab">Dimension</Link></MenuItem>
+            </SubMenu>
+            <MenuItem ><i><FiPackage /></i><Link href='/package'><a><span className='margin-left-20'>Package</span></a></Link></MenuItem>
+          </Menu>
+        </ProSidebar>;
 
-              <li><Link href='/rider/rider'><a><i><RiEBike2Fill /></i><span>Riders</span></a></Link> </li>
-              <li><Link href='/reports'><a><i><FaRegFileAlt /></i><span>Reports</span></a></Link> </li>
-              <li><Link href='/tracking'><a><i><FaSearchLocation /></i><span>Track</span></a></Link> </li>
-              {/* <li><Link href='/settings'><a><i><FiSettings/></i><span>Settings</span></a></Link> </li>  */}
-              <li><a ><i><FiMapPin /></i><span>Locations</span><span className="menu-arrow"></span></a>
-                <ul className="nav-second-level" aria-expanded="false">
-                  <li ><Link href="/locations/addCountry">Add Country</Link>   </li>
-                  <li><Link href="/locations/addState">Add State</Link>   </li>
-                  <li><Link href="/locations/addCity">Add City/Town</Link>   </li>
-                  <li><Link href="/locations/addPincodes">Add Pincodes</Link>   </li>
-
-                </ul>
-              </li>
-              <li><a ><i><HiOutlineReceiptTax /></i><span>Slabs</span><span className="menu-arrow"></span></a>
-                <ul className="nav-second-level " aria-expanded="false">
-                  <li><Link href="/slabs/distanceSlab">Distance</Link>   </li>
-                  <li><Link href="/slabs/newWeight/weightSlab">Weight</Link>   </li>
-                  <li><Link href="/slabs/dimension/dimensionSlab">Dimension</Link>   </li>
-
-
-                </ul>
-              </li>
-
-              <li><Link href='/package'><a><i><FiPackage /></i><span>Package</span></a></Link> </li>
-
-
-              {/*  <li><Link href='/admin/tests/testslist'><a><i><FaVials/></i><span>Tests</span></a></Link> </li> 
-               <li><Link href='/admin/tests/testslive'><a><i><FaVials/></i><span>Tests Live</span></a></Link> </li> 
-                <br></br>
-                <li><Link href='/'><a ><i className="fe-power"></i><span>Logout</span></a></Link></li>  */}
-
-
-            </ul>
-
-          </div>
-
-          <div className="clearfix"></div>
-
-          {/* </Scrollbars> */}
-        </div>
-
-
+        <div className="clearfix"></div>
       </div>
 
     );

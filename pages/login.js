@@ -34,6 +34,7 @@ const AdminSignin = () => {
             if (data.error) {
                 setValues({ ...values, error: data.error, loading: false });
             } else {
+                localStorage.setItem('id', data.admin_id);
                 // save user token to cookie
                 // save user info to localstorage
                 // authenticate user

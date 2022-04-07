@@ -1,13 +1,13 @@
 import Topbar from '../../topbar';
 import Link from 'next/link';
 import Sidebar from '../../sidebar';
-import React,{Fragment} from 'react';
+import React, { Fragment } from 'react';
 import Swal from 'sweetalert2/dist/sweetalert2.js'
-import Head  from 'next/head';
+import Head from 'next/head';
 import { useState, useEffect } from 'react';
 import Router from 'next/router';
 import Cookies from 'universal-cookie';
-import {addDimension,cityList} from '../../../actions/dimensionAction'
+import { addDimension, cityList } from '../../../actions/dimensionAction'
 const cookies = new Cookies();
 
 const AddDimension = () => {
@@ -15,24 +15,24 @@ const AddDimension = () => {
         name: '',
         error: '',
         success: false,
-        from:'',
-        to:'',
-        rate:'',
-        gst:'',
-        total:0,
-        city:[],
-        city_id:'',
-        above :false,
-    
-        additional_rate:'',
-        additional_gst:'',
-        additional_total:0,
+        from: '',
+        to: '',
+        rate: '',
+        gst: '',
+        total: 0,
+        city: [],
+        city_id: '',
+        above: false,
+
+        additional_rate: '',
+        additional_gst: '',
+        additional_total: 0,
         message: '',
         removed: false
     });
-    const [total,setTotal]=useState(0);
-    const [additional_total,setAdditionTotal]=useState(0);
-    const { name, error, success,from,to,city,city_id,rate,gst,above,additional_gst,additional_rate,message, removed } = values;
+    const [total, setTotal] = useState(0);
+    const [additional_total, setAdditionTotal] = useState(0);
+    const { name, error, success, from, to, city, city_id, rate, gst, above, additional_gst, additional_rate, message, removed } = values;
     const token = cookies.get('admin_token');
 
 
@@ -45,32 +45,34 @@ const AddDimension = () => {
             if (data.error) {
                 console.log(data.error);
             } else {
-       
-      setValues({ ...values, 
-        city: data.cities,
-        city_id:''});
-   }
-    }); 
-        
-      };
 
-     
-   
+                setValues({
+                    ...values,
+                    city: data.cities,
+                    city_id: ''
+                });
+            }
+        });
+
+    };
+
+
+
     const showError = () => (error ? alert(error) : '');
     const showMessage = () => (message ? <div className="alert alert-info">{message}</div> : '');
 
-   function edit(cell, row){
-    
+    function edit(cell, row) {
+
 
 
     }
-    
+
     const handleSubmit = e => {
         e.preventDefault();
         setValues({ ...values, loading: true, error: false });
-        const chapter = { from,to,rate,gst,total,city_id,additional_gst,additional_rate,additional_total,above};
+        const chapter = { from, to, rate, gst, total, city_id, additional_gst, additional_rate, additional_total, above };
 
-        addDimension(chapter,token).then(data => {
+        addDimension(chapter, token).then(data => {
             if (data.error) {
                 setValues({ ...values, error: data.error, loading: false });
             } else {
@@ -80,12 +82,12 @@ const AddDimension = () => {
 
     }
     const handleCheckBoxChange = name => e => {
-        if(e.target.checked){
-            setValues({ ...values, error: false, [name]: e.target.checked , to:'',rate:'',gst:'' });
+        if (e.target.checked) {
+            setValues({ ...values, error: false, [name]: e.target.checked, to: '', rate: '', gst: '' });
             setTotal(0)
 
-        }else {
-            setValues({ ...values, error: false, [name]: e.target.checked , additional_rate:'',additional_gst:'',additional_total:0 });
+        } else {
+            setValues({ ...values, error: false, [name]: e.target.checked, additional_rate: '', additional_gst: '', additional_total: 0 });
             setAdditionTotal(0)
         }
 
@@ -103,204 +105,204 @@ const AddDimension = () => {
         const newValues = {
             ...values,
             [name]: e.target.value
-        } 
-        calc_total(newValues) 
+        }
+        calc_total(newValues)
     };
-   
+
     const handleAboveChange = name => e => {
         setValues({ ...values, error: false, [name]: e.target.value });
 
         const newValues = {
             ...values,
             [name]: e.target.value
-        } 
-        calc_above_total(newValues) 
+        }
+        calc_above_total(newValues)
     };
 
     const calc_total = (newValues) => {
-        const { rate ,gst} = newValues;
-    
-        var result = parseFloat(rate)  + parseFloat(gst);
-       // const newTotal = parseInt(price) + parseInt(discount) 
-        
+        const { rate, gst } = newValues;
+
+        var result = parseFloat(rate) + parseFloat(gst);
+        // const newTotal = parseInt(price) + parseInt(discount) 
+
         setTotal(result)
         setAdditionTotal(0)
-    
+
         //setValues({ ...values, finalPrice: final_price.toString(), error: '' });
-    
-    } 
+
+    }
 
     const calc_above_total = (newValues) => {
-        const { additional_rate ,additional_gst} = newValues;
-    
-        var result = parseFloat(additional_rate)  + parseFloat(additional_gst);
-       // const newTotal = parseInt(price) + parseInt(discount) 
-        
+        const { additional_rate, additional_gst } = newValues;
+
+        var result = parseFloat(additional_rate) + parseFloat(additional_gst);
+        // const newTotal = parseInt(price) + parseInt(discount) 
+
         setAdditionTotal(result)
         setTotal(0)
         //setValues({ ...values, finalPrice: final_price.toString(), error: '' });
-    
-    } 
-    
+
+    }
+
     const signupForm = () => {
 
-      function updateCell(row,cellName,cellValue,props){
-        console.log("value"+cellValue)
+        function updateCell(row, cellName, cellValue, props) {
+            console.log("value" + cellValue)
 
-       
-           
-      
-            
-       }
+
+
+
+
+        }
         const cellEditProp = {
             mode: 'click',
-            afterSaveCell:updateCell
-          
-          };
-    return (
-        <div id="wrapper">
+            afterSaveCell: updateCell
 
-            <Head>
-            <title>Add Dimension</title>
-        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-        <meta name="title" content='Add Dimension' />
-        <meta property="og:image" content="/icons/app_logo.jpeg" />
-        <meta itemprop="image" content="/icons/app_logo.jpeg"></meta>
-        <meta property="og:image:width" content="200" />
-<meta property="og:image:height" content="200" />
-            </Head>
-        <Topbar/>
-        <Sidebar/>
-        <div className="content-page">
-<div className="content">
-<div className="container-fluid">
+        };
+        return (
+            <div id="wrapper">
 
-    <div className="row">
-        <div className="col-12">
-            <div className="page-title-box">
-                <h4 className="page-title float-left">Add Dimension</h4>
+                <Head>
+                    <title>Add Dimension</title>
+                    <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+                    <meta name="title" content='Add Dimension' />
+                    <meta property="og:image" content="/icons/app_logo.jpeg" />
+                    <meta itemprop="image" content="/icons/app_logo.jpeg"></meta>
+                    <meta property="og:image:width" content="200" />
+                    <meta property="og:image:height" content="200" />
+                </Head>
+                <Topbar />
+                <Sidebar />
+                <div className="content-page">
+                    <div className="content">
+                        <div className="container-fluid">
 
-                <ol className="breadcrumb float-right">
-                    <li className="breadcrumb-item"> <Link href='/dashboard'><a>Dashboard</a></Link></li>
-                    <li className="breadcrumb-item active">Add Dimension</li>
-                </ol>
+                            <div className="row">
+                                <div className="col-12">
+                                    <div className="page-title-box">
+                                        <h4 className="page-title float-left">Add Dimension</h4>
 
-                <div className="clearfix"></div>
-            </div>
-        </div>
-    </div>
-    <div className="row">
-    
-                                    
-<div className="col-md-6">
+                                        <ol className="breadcrumb float-right">
+                                            <li className="breadcrumb-item"> <Link href='/dashboard'><a>Dashboard</a></Link></li>
+                                            <li className="breadcrumb-item active">Add Dimension</li>
+                                        </ol>
 
-<div className="card-box" style={{paddingBottom: "50px"}}>
+                                        <div className="clearfix"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="row">
+
+
+                                <div className="col-md-6">
+
+                                    <div className="card-box" style={{ paddingBottom: "50px" }}>
                                         <h4 className="m-t-0 m-b-30 header-title"></h4>
                                         <div className="form-group form-inline">
-                                        
-
-</div>
 
 
-<form role="form" onSubmit={handleSubmit}  >
-    <div className="form-group">
-        <label>From</label>
-            <input type="text" className="form-control" value={from} placeholder="Length * Breadth * Height" id="name" name="name" onChange={handleChange('from')} required />
-                <div className="form-group mt-1 ml-1 row justify-content-start">
-                <div className=" col-9">
-                <div className="checkbox checkbox-primary">
-                <input id="checkbox2" type="checkbox" value={above} onChange={handleCheckBoxChange('above')}/>
-                        <label for="checkbox2"> Above </label>
-                        </div>
-                 </div> 
-                </div>
-                   </div>
+                                        </div>
 
-            
-                  {above ?
-                  <div>
-                               <div className="form-group ">
-        <select id='single' className="form-control" value={city_id} name="city_id" required id="sel1" onChange={handleCityChange('city_id')} >
-                    <option value="">Assign City</option>
-                    {city.map((person, i) =>
-                        <option key={i} value={person._id} > {person.name}</option>
-                    )}
-        
-                </select>
-        
-        </div>
-                    <div className="form-group">
-                    <label>Additional Rate / Dimension</label>
-                   <input type="text" className="form-control" value={additional_rate} placeholder="Additional Rate / Dimension" id="name" name="name" onChange={handleAboveChange('additional_rate')}  />
-                    </div>
 
-                    <div className="form-group">
-                    <label>GST / Dimension</label>
-                    <input type="text" className="form-control" value={additional_gst} placeholder="GST / Dimension" id="name" name="name" onChange={handleAboveChange('additional_gst')}  />
-                    </div>
+                                        <form role="form" onSubmit={handleSubmit}  >
+                                            <div className="form-group">
+                                                <label>From</label>
+                                                <input type="text" className="form-control" value={from} placeholder="Length * Breadth * Height" id="name" name="name" onChange={handleChange('from')} required />
+                                                <div className="form-group mt-1 ml-1 row justify-content-start">
+                                                    <div className=" col-9">
+                                                        <div className="checkbox checkbox-primary">
+                                                            <input id="checkbox2" type="checkbox" value={above} onChange={handleCheckBoxChange('above')} />
+                                                            <label for="checkbox2"> Above </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
 
-                    <div className="form-group">
-                    <label>Total</label>
-                    <input type="text" className="form-control" value={additional_total} placeholder="0" id="name" name="name" onChange={handleAboveChange('additional_total')} readOnly  />
-                    </div>
-                </div>
-                   
-                   :
-                   <div>
 
-                   <div className="form-group">
-                   <label>To</label>
-                   <input type="text" className="form-control" value={to} placeholder="Length * Breadth * Height" id="name" name="name" onChange={handleChange('to')} required />
-                    </div>
-                    <div className="form-group mt-3">
-        <select id='single' className="form-control" value={city_id} name="city_id" required id="sel1" onChange={handleCityChange('city_id')} >
-                    <option value="">Assign City</option>
-                    {city.map((person, i) =>
-                        <option key={i} value={person._id} > {person.name}</option>
-                    )}
-        
-                </select>
-        
-        </div>
+                                            {above ?
+                                                <div>
+                                                    <div className="form-group ">
+                                                        <select id='single' className="form-control" value={city_id} name="city_id" required id="sel1" onChange={handleCityChange('city_id')} >
+                                                            <option value="">Assign City</option>
+                                                            {city.map((person, i) =>
+                                                                <option key={i} value={person._id} > {person.name}</option>
+                                                            )}
 
-                    <div className="form-group">
-                   <label>Rate</label>
-                   <input type="text" className="form-control" value={rate} placeholder="Rate" id="name" name="name" onChange={handleChange('rate')} required />
-                    </div>
+                                                        </select>
 
-                    <div className="form-group">
-                   <label>GST</label>
-                   <input type="text" className="form-control" value={gst} placeholder="GST" id="name" name="name" onChange={handleChange('gst')} required />
-                    </div>
+                                                    </div>
+                                                    <div className="form-group">
+                                                        <label>Additional Rate / Dimension</label>
+                                                        <input type="text" className="form-control" value={additional_rate} placeholder="Additional Rate / Dimension" id="name" name="name" onChange={handleAboveChange('additional_rate')} />
+                                                    </div>
 
-                    <div className="form-group">
-                   <label>Total</label>
-                   <input type="text" className="form-control" value={total} placeholder="Total" id="name" name="name" onChange={handleChange('total')} required readOnly />
-                    </div>
-                    
-                    </div>
-              }
-                                           
-  <button type="submit" className="btn btn-primary" >Submit</button>
-</form>
-</div>
+                                                    <div className="form-group">
+                                                        <label>GST / Dimension</label>
+                                                        <input type="text" className="form-control" value={additional_gst} placeholder="GST / Dimension" id="name" name="name" onChange={handleAboveChange('additional_gst')} />
+                                                    </div>
 
-</div>
+                                                    <div className="form-group">
+                                                        <label>Total</label>
+                                                        <input type="text" className="form-control" value={additional_total} placeholder="0" id="name" name="name" onChange={handleAboveChange('additional_total')} readOnly />
+                                                    </div>
+                                                </div>
 
-              </div>
-                    </div>
-                    </div>
+                                                :
+                                                <div>
+
+                                                    <div className="form-group">
+                                                        <label>To</label>
+                                                        <input type="text" className="form-control" value={to} placeholder="Length * Breadth * Height" id="name" name="name" onChange={handleChange('to')} required />
+                                                    </div>
+                                                    <div className="form-group mt-3">
+                                                        <select id='single' className="form-control" value={city_id} name="city_id" required id="sel1" onChange={handleCityChange('city_id')} >
+                                                            <option value="">Assign City</option>
+                                                            {city.map((person, i) =>
+                                                                <option key={i} value={person._id} > {person.name}</option>
+                                                            )}
+
+                                                        </select>
+
+                                                    </div>
+
+                                                    <div className="form-group">
+                                                        <label>Rate</label>
+                                                        <input type="text" className="form-control" value={rate} placeholder="Rate" id="name" name="name" onChange={handleChange('rate')} required />
+                                                    </div>
+
+                                                    <div className="form-group">
+                                                        <label>GST</label>
+                                                        <input type="text" className="form-control" value={gst} placeholder="GST" id="name" name="name" onChange={handleChange('gst')} required />
+                                                    </div>
+
+                                                    <div className="form-group">
+                                                        <label>Total</label>
+                                                        <input type="text" className="form-control" value={total} placeholder="Total" id="name" name="name" onChange={handleChange('total')} required readOnly />
+                                                    </div>
+
+                                                </div>
+                                            }
+
+                                            <button type="submit" className="btn btn-primary" >Submit</button>
+                                        </form>
+                                    </div>
+
+                                </div>
+
                             </div>
-          
-        </div>
-        
-    );
-}
-return <React.Fragment>
-    {showError()}
-    {showMessage()}
-    { signupForm()}
-</React.Fragment>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        );
+    }
+    return <React.Fragment>
+        {showError()}
+        {showMessage()}
+        {signupForm()}
+    </React.Fragment>
 
 };
 

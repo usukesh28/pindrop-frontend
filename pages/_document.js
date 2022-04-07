@@ -15,7 +15,7 @@ class MyDocument extends Document {
           {/* <title>M2BHEALTH</title> */}
           <meta property="og:image" content="/icons/logo.png" />
 
-          <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossOrigin="anonymous" />
+          {/* <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossOrigin="anonymous" /> */}
 
           <link href="/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
           <link href="/css/icons.min.css" rel="stylesheet" type="text/css" />
@@ -27,12 +27,14 @@ class MyDocument extends Document {
           <link href="/plugins/bootstrap-fileupload/bootstrap-fileupload.css" rel="stylesheet" />
           <link rel="stylesheet" href="/css/select2/select2.min.css" />
           <link href="/plugins/bootstrap-fileupload/bootstrap-fileupload.css" rel="stylesheet" />
+
         </Head>
         <body>
 
 
           <Main />
           <NextScript />
+
           <Script src="/js/select2/select2.min.js"></Script>
           <Script src="/js/app.min.js"></Script>
           <Script src="/js/jquery.min.js"></Script>
@@ -45,14 +47,14 @@ class MyDocument extends Document {
           <Script src="/js/select2/select2.min.js"></Script>
           <Script src="/pages/jquery.dashboard.init.js"></Script>
 
-          <Script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.8/clipboard.min.js"></Script>
+          {/* <Script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.8/clipboard.min.js"></Script> */}
 
-          <Script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></Script>
+          {/* <Script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></Script> */}
           <script src="/js/app.js"></script>
           {/* <script src="/static/js/app.js"></script> */}
           <Script src="https://canvasjs.com/assets/script/canvasjs.min.js"> </Script>
 
-          <Script src="https://cdnjs.cloudflare.com/ajax/libs/metisMenu/3.0.7/metisMenu.min.js"></Script>
+          {/* <Script src="https://cdnjs.cloudflare.com/ajax/libs/metisMenu/3.0.7/metisMenu.min.js"></Script> */}
           {/* 
         <script src="/static/libs/tablesaw/tablesaw.js"></script>
 
